@@ -1,15 +1,13 @@
 services:
   postgres:
     image: postgres:latest
-    container_name: postgres
+    container_name: postgres_iceberg
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ~H?z4H`C1314
       POSTGRES_DB: iceberg-db
     ports:
       - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
