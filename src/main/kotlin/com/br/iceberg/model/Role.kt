@@ -4,7 +4,7 @@ enum class Role(val description: String) {
     ADMIN("Administrador do sistema"),
     USER("Usuário padrão"),
     MANAGER("Gerente"),
-    SUPPORT("Suporte técnico");
+    VENDOR("Vendedor");
 
     fun getAuthority(): String = "ROLE_$name"
 }

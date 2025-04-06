@@ -3,6 +3,7 @@ package com.br.iceberg.modules.user.entity
 import com.br.iceberg.model.Role
 import com.br.iceberg.model.UserModel
 import com.br.iceberg.modules.user.dto.CreateNewUser
+import com.br.iceberg.modules.user.dto.UpdateUser
 import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column
 import jakarta.persistence.ElementCollection
@@ -23,39 +24,42 @@ import jakarta.persistence.Table
         Index(name = "idx_user_email", columnList = "email"),
         Index(name = "idx_user_phone", columnList = "phone"),
     ]
-)
-data class UserEntity(
+) 
+class UserEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    var id: Long,
 
     @Column(nullable = false)
-    val firstName: String,
+    var firstName: String,
 
     @Column(nullable = false)
-    val lastName: String,
+    var lastName: String,
 
     @Column(nullable = false, unique = true)
-    val email: String,
+    var email: String,
 
     @Column(nullable = false)
-    val password: String,
+    var password: String,
 
     @Column(nullable = false, unique = true, length = 16)
-    val phone: String,
+    var phone: String,
 
     @Column(nullable = false)
-    val isBackoffice: Boolean,
+    var isBackoffice: Boolean = false,
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    var isBlocked: Boolean = false,
+
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Role::class)
     @CollectionTable(
         name = "user_roles",
         joinColumns = [JoinColumn(name = "user_id")]
     )
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    val roles: Set<Role> = emptySet()
+    var roles: Set<Role> = emptySet()
 ){
     constructor(createNewUser: CreateNewUser, password: String) : this(
         id = 0,
@@ -64,7 +68,6 @@ data class UserEntity(
         email = createNewUser.email,
         password = password,
         phone = createNewUser.phone,
-        isBackoffice = false,
         roles = setOf(Role.USER),
     )
 
@@ -76,7 +79,31 @@ data class UserEntity(
             email = email,
             phone = phone,
             isBackoffice = isBackoffice,
+            isBlocked = isBlocked,
             roles = roles.map { it.name }.toSet()
         )
+    }
+
+    fun updateUser(user: UpdateUser) {
+        this.firstName = user.firstName
+        this.lastName = user.lastName
+        this.email = user.email
+        this.phone = user.phone
+    }
+
+    fun updatePassword(password: String) {
+        this.password = password
+    }
+
+    fun updateIsBackoffice(isBackoffice: Boolean) {
+        this.isBackoffice = isBackoffice
+    }
+
+    fun updateIsBlocked(isBlocked: Boolean) {
+        this.isBlocked = isBlocked
+    }
+
+    fun updateRoles(roles: Set<Role>) {
+        this.roles = roles
     }
 }
