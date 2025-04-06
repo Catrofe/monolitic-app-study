@@ -68,7 +68,8 @@ class UserService(
 
         validateUserUpdate(user, userEntity.id)
 
-        val updatedUser = userRepository.save(userEntity.updateUser(user))
+        userEntity.updateUser(user)
+        val updatedUser = userRepository.save(userEntity)
 
         logger.info("Usuário atualizado com ID: ${updatedUser.id} e email: ${updatedUser.email}")
         return updatedUser.toModel()
@@ -91,7 +92,8 @@ class UserService(
             throw IllegalArgumentException("Current password incorrect")
         }
 
-        val updatedUser = userRepository.save(userEntity.updatePassword(passwordEncoder.encode(passwords.newPassword)))
+        userEntity.updatePassword(passwordEncoder.encode(passwords.newPassword))
+        val updatedUser = userRepository.save(userEntity)
 
         logger.info("Password updated to ID: ${updatedUser.id} and email: ${updatedUser.email}")
         return updatedUser.toModel()

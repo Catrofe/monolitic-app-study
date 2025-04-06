@@ -12,25 +12,30 @@ class UserBackofficeService(
 ) {
 
     @Transactional
-    fun updateUserIsBackoffice(userIsBackoffice: Boolean, idUser: Long): UserModel =
-    userRepository.findById(idUser)
-        .map { userRepository.save(it.updateIsBackoffice(userIsBackoffice)).toModel() }
-        .orElseThrow { IllegalArgumentException("Usuário não encontrado") }
-
-
-    @Transactional
-    fun updateUserIsBlocked(userIsBlocked: Boolean,  idUser: Long): UserModel =
-    userRepository.findById(idUser)
-        .map { userRepository.save(it.updateIsBlocked(userIsBlocked)).toModel() }
-        .orElseThrow {
-            IllegalArgumentException("Usuário não encontrado")
-        }
-
+    fun updateUserIsBackoffice(userIsBackoffice: Boolean, idUser: Long): UserModel {
+        val userEntity = userRepository.findById(idUser)
+            .orElseThrow { IllegalArgumentException("Usuário não encontrado") }
+        userEntity.updateIsBackoffice(userIsBackoffice)
+        val userUpdated = userRepository.save(userEntity)
+        return userUpdated.toModel()
+    }
 
     @Transactional
-    fun updateUserRoles(roles: Set<Role>,  idUser: Long): UserModel =
-    userRepository.findById(idUser)
-        .map { userRepository.save(it.updateRoles(roles)).toModel() }
-        .orElseThrow { IllegalArgumentException("Usuário não encontrado") }
+    fun updateUserIsBlocked(userIsBlocked: Boolean,  idUser: Long): UserModel {
+        val userEntity = userRepository.findById(idUser)
+            .orElseThrow { IllegalArgumentException("Usuário não encontrado") }
+        userEntity.updateIsBlocked(userIsBlocked)
+        val userUpdated = userRepository.save(userEntity)
+        return userUpdated.toModel()
+    }
+
+    @Transactional
+    fun updateUserRoles(roles: Set<Role>,  idUser: Long): UserModel {
+        val userEntity = userRepository.findById(idUser)
+            .orElseThrow { IllegalArgumentException("Usuário não encontrado") }
+        userEntity.updateRoles(roles)
+        val userUpdated =  userRepository.save(userEntity)
+        return userUpdated.toModel()
+    }
 
 }

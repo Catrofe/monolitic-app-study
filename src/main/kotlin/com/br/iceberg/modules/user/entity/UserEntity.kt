@@ -24,42 +24,42 @@ import jakarta.persistence.Table
         Index(name = "idx_user_email", columnList = "email"),
         Index(name = "idx_user_phone", columnList = "phone"),
     ]
-)
-data class UserEntity(
+) 
+class UserEntity(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long,
+    var id: Long,
 
     @Column(nullable = false)
-    val firstName: String,
+    var firstName: String,
 
     @Column(nullable = false)
-    val lastName: String,
+    var lastName: String,
 
     @Column(nullable = false, unique = true)
-    val email: String,
+    var email: String,
 
     @Column(nullable = false)
-    val password: String,
+    var password: String,
 
     @Column(nullable = false, unique = true, length = 16)
-    val phone: String,
+    var phone: String,
 
     @Column(nullable = false)
-    val isBackoffice: Boolean = false,
+    var isBackoffice: Boolean = false,
 
     @Column(nullable = false, columnDefinition = "boolean default false")
-    val isBlocked: Boolean = false,
+    var isBlocked: Boolean = false,
 
-    @ElementCollection(fetch = FetchType.EAGER)
+    @ElementCollection(fetch = FetchType.EAGER, targetClass = Role::class)
     @CollectionTable(
         name = "user_roles",
         joinColumns = [JoinColumn(name = "user_id")]
     )
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    val roles: Set<Role> = emptySet()
+    var roles: Set<Role> = emptySet()
 ){
     constructor(createNewUser: CreateNewUser, password: String) : this(
         id = 0,
@@ -84,36 +84,26 @@ data class UserEntity(
         )
     }
 
-    fun updateUser(user: UpdateUser): UserEntity {
-        return this.copy(
-            firstName = user.firstName,
-            lastName = user.lastName,
-            email = user.email,
-            phone = user.phone,
-        )
+    fun updateUser(user: UpdateUser) {
+        this.firstName = user.firstName
+        this.lastName = user.lastName
+        this.email = user.email
+        this.phone = user.phone
     }
 
-    fun updatePassword(password: String): UserEntity {
-        return this.copy(
-            password = password
-        )
+    fun updatePassword(password: String) {
+        this.password = password
     }
 
-    fun updateIsBackoffice(isBackoffice: Boolean): UserEntity {
-        return this.copy(
-            isBackoffice = isBackoffice
-        )
+    fun updateIsBackoffice(isBackoffice: Boolean) {
+        this.isBackoffice = isBackoffice
     }
 
-    fun updateIsBlocked(isBlocked: Boolean): UserEntity {
-        return this.copy(
-            isBlocked = isBlocked
-        )
+    fun updateIsBlocked(isBlocked: Boolean) {
+        this.isBlocked = isBlocked
     }
 
-    fun updateRoles(roles: Set<Role>): UserEntity {
-        return this.copy(
-            roles = roles
-        )
+    fun updateRoles(roles: Set<Role>) {
+        this.roles = roles
     }
 }
