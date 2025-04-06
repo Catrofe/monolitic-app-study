@@ -3,6 +3,7 @@ package com.br.iceberg.modules.user.entity
 import com.br.iceberg.model.Role
 import com.br.iceberg.model.UserModel
 import com.br.iceberg.modules.user.dto.CreateNewUser
+import com.br.iceberg.modules.user.dto.UpdateUser
 import jakarta.persistence.CollectionTable
 import jakarta.persistence.Column
 import jakarta.persistence.ElementCollection
@@ -77,6 +78,21 @@ data class UserEntity(
             phone = phone,
             isBackoffice = isBackoffice,
             roles = roles.map { it.name }.toSet()
+        )
+    }
+
+    fun updateUser(user: UpdateUser): UserEntity {
+        return this.copy(
+            firstName = user.firstName,
+            lastName = user.lastName,
+            email = user.email,
+            phone = user.phone,
+        )
+    }
+
+    fun updatePassword(password: String): UserEntity {
+        return this.copy(
+            password = password
         )
     }
 }
