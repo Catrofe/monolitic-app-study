@@ -22,3 +22,7 @@ class UserNotAuthorizedException(private val user: String) : UserDomainException
 class UserBadRequestException(private val user: String) : UserDomainException("USER-004") {
     override fun args(): Array<Any?> = arrayOf(user)
 }
+
+class UserBadRequestUpdateException(private val user: String) : UserDomainException("USER-005") {
+    override fun args(): Array<Any?> = arrayOf(user)
+}

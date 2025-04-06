@@ -7,6 +7,7 @@ import com.br.iceberg.modules.user.dto.UpdateUser
 import com.br.iceberg.modules.user.entity.UserEntity
 import com.br.iceberg.modules.user.exception.UserAlreadyExistsException
 import com.br.iceberg.modules.user.exception.UserBadRequestException
+import com.br.iceberg.modules.user.exception.UserBadRequestUpdateException
 import com.br.iceberg.modules.user.exception.UserNotFoundException
 import com.br.iceberg.modules.user.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
@@ -72,7 +73,7 @@ class UserService(
     private fun validateUserUpdate(user: UpdateUser, id: Long) {
         userRepository.verifyIfUpdateUserIsSafe(user.email, user.phone, id).let {
             logger.warn("User with email: ${user.email} and phone: ${user.phone} already exists, not updating")
-            "User with this email and phone already exists"
+           throw UserBadRequestUpdateException(id.toString())
         }
     }
 
