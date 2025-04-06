@@ -3,8 +3,10 @@ package com.br.iceberg.modules.auth.service
 import com.br.iceberg.config.auth.JwtTokenProvider
 import com.br.iceberg.modules.auth.dto.LoginRequest
 import com.br.iceberg.modules.auth.dto.TokenResponse
+import com.br.iceberg.modules.auth.exception.AuthBadRequestLoginException
+import com.br.iceberg.modules.auth.exception.AuthUserNotFoundException
+import com.br.iceberg.modules.auth.exception.UnauthorizedIcebergException
 import com.br.iceberg.modules.auth.integration.port.UserServiceAdapter
-import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
@@ -16,10 +18,10 @@ class AuthService(
 ) {
     suspend fun login(loginRequest: LoginRequest): TokenResponse {
         val user = userServiceAdapter.findUserToLogin(loginRequest.user)
-            ?: throw UsernameNotFoundException("User not found with user: ${loginRequest.user}")
+            ?: throw AuthUserNotFoundException(loginRequest.user)
 
         if (!validPassword(loginRequest.password, user.password)) {
-            throw IllegalArgumentException("Invalid password")
+            throw AuthBadRequestLoginException(loginRequest.user)
         }
 
         return jwtUtils.generateTokensLogin(user)
@@ -31,13 +33,12 @@ class AuthService(
 
     suspend fun refresh(refreshToken: String): TokenResponse {
         if (!jwtUtils.validateRefreshToken(refreshToken)) {
-            throw IllegalArgumentException("Token de refresh inválido ou expirado")
+            throw UnauthorizedIcebergException()
         }
 
         val email = jwtUtils.extractUsernameFromRefreshToken(refreshToken)
-
         val user = userServiceAdapter.findUserByEmail(email)
-            ?: throw UsernameNotFoundException("Usuário não encontrado com email: $email")
+            ?: throw AuthUserNotFoundException(email)
 
         return jwtUtils.generateTokensLogin(user)
     }

@@ -1,5 +1,6 @@
 package com.br.iceberg.config.auth
 
+import com.br.iceberg.modules.auth.exception.UnauthorizedIcebergException
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -14,8 +15,6 @@ class JwtAuthenticationFilter(
     private val jwtTokenProvider: JwtTokenProvider,
     private val userDetailsService: UserDetailsService
 ) : OncePerRequestFilter() {
-
-    val logger = org.slf4j.LoggerFactory.getLogger(JwtAuthenticationFilter::class.java)
 
     override fun doFilterInternal(
         request: HttpServletRequest,
@@ -41,13 +40,9 @@ class JwtAuthenticationFilter(
                 }
             } catch (e: Exception) {
                 logger.error("Invalid token", e)
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token")
-                return
+                throw UnauthorizedIcebergException()
             }
-
-
         }
-
         filterChain.doFilter(request, response)
     }
 }
