@@ -5,6 +5,9 @@ import com.br.iceberg.modules.user.dto.CreateNewUser
 import com.br.iceberg.modules.user.dto.UpdatePassword
 import com.br.iceberg.modules.user.dto.UpdateUser
 import com.br.iceberg.modules.user.entity.UserEntity
+import com.br.iceberg.modules.user.exception.UserAlreadyExistsException
+import com.br.iceberg.modules.user.exception.UserBadRequestException
+import com.br.iceberg.modules.user.exception.UserNotFoundException
 import com.br.iceberg.modules.user.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -27,8 +30,7 @@ class UserService(
 
         if (validateUser(user)) {
             logger.warn("User with email: ${user.email} and phone: ${user.phone} already exists, not creating")
-            throw IllegalArgumentException("User with this email and phone already exists")
-            // TODO: Create a custom exception
+            throw UserAlreadyExistsException(user.email)
         }
 
         val newUser = withContext(Dispatchers.IO) {
@@ -45,16 +47,8 @@ class UserService(
         }
     }
 
-    suspend fun findUserById(id: Long): UserModel {
-        return withContext(Dispatchers.IO) {
-            val user = userRepository.findById(id).orElseThrow { IllegalArgumentException("User not found") }
-            logger.info("User found with ID: ${user.id} and email: ${user.email}")
-            user.toModel()
-        }
-    }
-
-    fun findUserByEmail(userEmail: String?): UserModel? {
-        return userEmail?.let {
+    fun findUserByEmail(userEmail: String): UserModel? {
+        return userEmail.let {
             val user = userRepository.findByEmail(it)
             logger.info("User found with email: ${user?.email}")
             user?.toModel()
@@ -64,7 +58,7 @@ class UserService(
     @Transactional
     fun updateUser(user: UpdateUser, currentUserEmail: String): UserModel {
         val userEntity = userRepository.findByEmail(currentUserEmail)
-            ?: throw IllegalArgumentException("Usuário não encontrado")
+            ?: throw UserNotFoundException(currentUserEmail)
 
         validateUserUpdate(user, userEntity.id)
 
@@ -85,11 +79,11 @@ class UserService(
     @Transactional
     fun updatePassword(passwords: UpdatePassword, userEmail: String): UserModel {
         val userEntity = userRepository.findByEmail(userEmail)
-            ?: throw IllegalArgumentException("User Not Found")
+            ?: throw UserNotFoundException(userEmail)
 
         if (!passwordEncoder.matches(passwords.oldPassword, userEntity.password)) {
             logger.warn("Old password does not match for user with email: ${userEntity.email}")
-            throw IllegalArgumentException("Current password incorrect")
+            throw UserBadRequestException(userEmail)
         }
 
         userEntity.updatePassword(passwordEncoder.encode(passwords.newPassword))
