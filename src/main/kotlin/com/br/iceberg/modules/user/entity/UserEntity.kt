@@ -47,7 +47,10 @@ data class UserEntity(
     val phone: String,
 
     @Column(nullable = false)
-    val isBackoffice: Boolean,
+    val isBackoffice: Boolean = false,
+
+    @Column(nullable = false, columnDefinition = "boolean default false")
+    val isBlocked: Boolean = false,
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
@@ -65,7 +68,6 @@ data class UserEntity(
         email = createNewUser.email,
         password = password,
         phone = createNewUser.phone,
-        isBackoffice = false,
         roles = setOf(Role.USER),
     )
 
@@ -77,6 +79,7 @@ data class UserEntity(
             email = email,
             phone = phone,
             isBackoffice = isBackoffice,
+            isBlocked = isBlocked,
             roles = roles.map { it.name }.toSet()
         )
     }
@@ -93,6 +96,24 @@ data class UserEntity(
     fun updatePassword(password: String): UserEntity {
         return this.copy(
             password = password
+        )
+    }
+
+    fun updateIsBackoffice(isBackoffice: Boolean): UserEntity {
+        return this.copy(
+            isBackoffice = isBackoffice
+        )
+    }
+
+    fun updateIsBlocked(isBlocked: Boolean): UserEntity {
+        return this.copy(
+            isBlocked = isBlocked
+        )
+    }
+
+    fun updateRoles(roles: Set<Role>): UserEntity {
+        return this.copy(
+            roles = roles
         )
     }
 }

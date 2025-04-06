@@ -7,5 +7,6 @@ data class UserModel(
     val email: String,
     val phone: String,
     val isBackoffice: Boolean,
+    val isBlocked: Boolean,
     val roles: Set<String> = emptySet(),
 )
