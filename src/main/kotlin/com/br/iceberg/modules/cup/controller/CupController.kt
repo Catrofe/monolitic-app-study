@@ -31,7 +31,7 @@ class CupController(
     
 
     @PatchMapping("/{id}")
-    fun updateCupAvaliability(@PathVariable id: Long) =  cupService.patchCup(id)
+    fun updateCupAvailability(@PathVariable id: Long) =  cupService.patchCup(id)
     
 
     @GetMapping("/{id}")
