@@ -24,7 +24,8 @@ import jakarta.persistence.Table
         Index(name = "idx_user_email", columnList = "email"),
         Index(name = "idx_user_phone", columnList = "phone"),
     ]
-) 
+)
+@Suppress("LongParameterList")
 class UserEntity(
 
     @Id
