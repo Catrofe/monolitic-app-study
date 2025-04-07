@@ -37,5 +37,4 @@ data class CupUpdateDto(
 
     @NotNull
     val syrupExtraPrice: Int,
-) {
-}
+)
