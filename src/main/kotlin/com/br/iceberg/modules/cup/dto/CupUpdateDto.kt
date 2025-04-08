@@ -5,36 +5,36 @@ import jakarta.validation.constraints.NotNull
 
 data class CupUpdateDto(
 
-    @NotNull
+    @field:NotNull
     val id: Long,
 
-    @NotBlank
+    @field:NotBlank
     val name: String,
 
-    @NotBlank
+    @field:NotBlank
     val description: String,
 
-    @NotNull
+    @field:NotNull
     val volumeMl: Double,
 
-    @NotNull
+    @field:NotNull
     val price: Int,
 
-    @NotNull
+    @field:NotNull
     val maxToppings: Int,
 
-    @NotNull
+    @field:NotNull
     val maxSyrups: Int,
 
-    @NotNull
+    @field:NotNull
     val allowExtraToppings: Boolean,
 
-    @NotNull
+    @field:NotNull
     val allowExtraSyrups: Boolean,
 
-    @NotNull
+    @field:NotNull
     val toppingExtraPrice: Int,
 
-    @NotNull
+    @field:NotNull
     val syrupExtraPrice: Int,
 )

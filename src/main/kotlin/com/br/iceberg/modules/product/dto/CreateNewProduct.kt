@@ -6,16 +6,16 @@ import jakarta.validation.constraints.NotNull
 
 data class CreateNewProduct(
 
-    @NotBlank
+    @field:NotBlank
     val name: String,
 
-    @NotBlank
+    @field:NotBlank
     val description: String,
 
-    @NotNull
+    @field:NotNull
     val type: TypeProducts,
 
-    @NotNull
+    @field:NotNull
     val isPlusProduct: Boolean = false,
 
     val plusPrice: Int? = null,

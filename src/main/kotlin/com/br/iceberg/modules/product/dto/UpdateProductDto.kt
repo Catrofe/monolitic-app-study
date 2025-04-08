@@ -6,21 +6,21 @@ import jakarta.validation.constraints.NotNull
 
 data class UpdateProductDto(
 
-    @NotNull
+    @field:NotNull
     val id: Long,
 
-    @NotBlank
+    @field:NotBlank
     val name: String,
 
-    @NotBlank
+    @field:NotBlank
     val description: String,
 
-    @NotNull
+    @field:NotNull
     val type: TypeProducts,
 
-    @NotNull
+    @field:NotNull
     val isPlusProduct: Boolean,
 
-    @NotNull
+    @field:NotNull
     val plusPrice: Int?,
 )
