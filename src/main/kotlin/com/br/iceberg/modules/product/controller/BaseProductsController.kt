@@ -1,8 +1,8 @@
-package com.br.iceberg.modules.cup.controller
+package com.br.iceberg.modules.product.controller
 
-import com.br.iceberg.modules.cup.dto.CupCreateDto
-import com.br.iceberg.modules.cup.dto.CupUpdateDto
-import com.br.iceberg.modules.cup.service.CupService
+import com.br.iceberg.modules.product.dto.CreateNewProduct
+import com.br.iceberg.modules.product.dto.UpdateProductDto
+import com.br.iceberg.modules.product.service.BaseProductsService
 import jakarta.validation.Valid
 import org.springframework.data.domain.Pageable
 import org.springframework.http.HttpStatus
@@ -19,32 +19,28 @@ import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/cup")
+@RequestMapping("/product")
 @PreAuthorize("hasAnyRole('ADMIN', 'MANAGER')")
-class CupController(
-    val cupService: CupService,
+class BaseProductsController(
+    val baseProductsService: BaseProductsService,
 ) {
 
     @PostMapping
-    fun createCup(@RequestBody @Valid cup: CupCreateDto) =  cupService.createCup(cup)
-    
+    fun createNewProduct(@RequestBody @Valid product: CreateNewProduct) = baseProductsService.createNewProduct(product)
 
     @PutMapping
-    fun updateCup(@Valid @RequestBody cup: CupUpdateDto) =  cupService.updateCup(cup)
-    
+    fun updateProduct(@RequestBody @Valid product: UpdateProductDto) = baseProductsService.updateProduct(product)
 
     @PatchMapping("/{id}")
-    fun updateCupAvailability(@PathVariable id: Long) =  cupService.patchCup(id)
-    
-
-    @GetMapping("/{id}")
-    fun getCup(@PathVariable id: Long) =  cupService.getCup(id)
-    
+    fun updateProductAvailability(@PathVariable id: Long) = baseProductsService.updateProductAvailability(id)
 
     @GetMapping
-    fun getAllCups(pageable: Pageable) =  cupService.getAllCups(pageable)
+    fun getAllProducts(pageable: Pageable) = baseProductsService.getAllProducts(pageable)
+
+    @GetMapping("/{id}")
+    fun getProductById(@PathVariable id: Long) = baseProductsService.getProductById(id)
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun deleteCup(@PathVariable id: Long) =  cupService.deleteCup(id)
+    fun deleteProduct(@PathVariable id: Long) = baseProductsService.deleteProduct(id)
 }

@@ -1,6 +1,7 @@
 package com.br.iceberg.modules.cup.service
 
 import com.br.iceberg.model.CupModel
+import com.br.iceberg.model.PageResponse
 import com.br.iceberg.modules.cup.dto.CupCreateDto
 import com.br.iceberg.modules.cup.dto.CupUpdateDto
 import com.br.iceberg.modules.cup.repository.CupRepository
@@ -43,9 +44,20 @@ class CupService(
         return cupEntity.toModel()
     }
 
-    fun getAllCups(pageable: Pageable): List<CupModel> {
-        return cupRepository.findAll(pageable)
-            .map { it.toModel() }
-            .toList()
+    fun getAllCups(pageable: Pageable): PageResponse<CupModel> {
+        val page = cupRepository.findAll(pageable).map { it.toModel() }
+        return PageResponse(
+            content = page.content,
+            pageNumber = page.number,
+            pageSize = page.size,
+            totalElements = page.totalElements,
+            totalPages = page.totalPages
+        )
+    }
+
+    fun deleteCup(id: Long) {
+        val cupEntity = cupRepository.findById(id)
+            .orElseThrow { CupNotFoundException(id.toString()) }
+        cupRepository.delete(cupEntity)
     }
 }

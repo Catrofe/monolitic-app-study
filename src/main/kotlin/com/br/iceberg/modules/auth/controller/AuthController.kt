@@ -28,9 +28,9 @@ class AuthController(
      }
 
      @PostMapping("/refresh")
-     fun refresh(@Valid @RequestHeader refreshRequest: String): CompletableFuture<TokenResponse> {
+     fun refresh(@RequestHeader refreshToken: String): CompletableFuture<TokenResponse> {
          return CoroutineScope(Dispatchers.IO).future {
-             authService.refresh(refreshRequest)
+             authService.refresh(refreshToken)
          }
      }
 }
