@@ -11,3 +11,7 @@ abstract class CupDomainException(
 class CupNotFoundException(private val cup: String) : CupDomainException("CUP-001") {
     override fun args(): Array<Any?> = arrayOf(cup)
 }
+
+class CupNotAvailableException(private val cup: String) : CupDomainException("CUP-002") {
+    override fun args(): Array<Any?> = arrayOf(cup)
+}

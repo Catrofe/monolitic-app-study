@@ -2,6 +2,7 @@ package com.br.iceberg.modules.cup.entity
 
 import com.br.iceberg.model.CupModel
 import com.br.iceberg.modules.cup.dto.CupCreateDto
+import com.br.iceberg.modules.cup.dto.CupSummaryDto
 import com.br.iceberg.modules.cup.dto.CupUpdateDto
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
@@ -96,6 +97,17 @@ class CupEntity(
             allowExtraSyrups = allowExtraSyrups,
             toppingExtraPrice = toppingExtraPrice,
             syrupExtraPrice = syrupExtraPrice,
+            isAvailable = isAvailable
+        )
+    }
+
+    fun toSummaryModel(): CupSummaryDto {
+        return CupSummaryDto(
+            id = id,
+            name = name,
+            description = description,
+            volumeMl = volumeMl,
+            price = price,
             isAvailable = isAvailable
         )
     }
