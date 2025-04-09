@@ -15,3 +15,7 @@ class ProductNotFoundException(private val product: String) : ProductDomainExcep
 class ProductPlusCreateException: ProductDomainException("PRODUCT-002") {
     override fun args(): Array<Any?> = arrayOf()
 }
+
+class ProductNotAvailableException(private val product: String) : ProductDomainException("PRODUCT-003") {
+    override fun args(): Array<Any?> = arrayOf(product)
+}
