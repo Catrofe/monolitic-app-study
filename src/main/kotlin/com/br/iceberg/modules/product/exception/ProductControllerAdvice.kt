@@ -2,10 +2,13 @@ package com.br.iceberg.modules.product.exception
 
 import com.br.iceberg.config.handler.MessageService
 import com.br.iceberg.model.ErrorModelReturn
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 class ProductControllerAdvice(
     val messageService: MessageService
 ) {

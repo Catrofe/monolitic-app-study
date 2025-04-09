@@ -2,6 +2,7 @@ package com.br.iceberg.modules.auth.exception
 
 import com.br.iceberg.config.handler.MessageService
 import com.br.iceberg.model.ErrorModelReturn
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -46,17 +47,5 @@ class AuthControllerAdvice(
             additionalInfo = exception.additionalInfo()
         )
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorModelReturn)
-    }
-
-    @ExceptionHandler
-    fun handleAuthDomainException(exception: Exception): ResponseEntity<ErrorModelReturn?> {
-        val message = messageService.getMessage("ICEBERG-999", arrayOf(exception.message))
-        val errorModelReturn = ErrorModelReturn(
-            code = "ICEBERG-999",
-            message = message,
-            args = arrayOf(exception.message),
-            additionalInfo = null
-        )
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorModelReturn)
     }
 }

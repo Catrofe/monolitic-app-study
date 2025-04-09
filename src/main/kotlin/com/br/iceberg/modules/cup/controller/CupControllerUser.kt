@@ -18,6 +18,6 @@ class CupControllerUser(
     @GetMapping("/is-available")
     fun getAllCupsToUser(pageable: Pageable) = cupService.getAllCupsToUser(pageable)
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     fun getCup(@PathVariable id: Long) = cupService.getCup(id)
 }

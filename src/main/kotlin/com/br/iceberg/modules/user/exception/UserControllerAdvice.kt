@@ -2,18 +2,21 @@ package com.br.iceberg.modules.user.exception
 
 import com.br.iceberg.config.handler.MessageService
 import com.br.iceberg.model.ErrorModelReturn
+import org.springframework.core.Ordered
+import org.springframework.core.annotation.Order
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 
 @ControllerAdvice
+@Order(Ordered.HIGHEST_PRECEDENCE)
 class UserControllerAdvice(
     private val messageService: MessageService
 ) {
 
-    @ExceptionHandler
-    fun handleUserDomainException(exception: UserNotFoundException): ResponseEntity<ErrorModelReturn?> {
+    @ExceptionHandler(UserNotFoundException::class)
+    fun handleUserNotFoundException(exception: UserNotFoundException): ResponseEntity<ErrorModelReturn?> {
         val message = messageService.getMessage(exception.code, exception.args())
         val errorModelReturn = ErrorModelReturn(
             code = exception.code,
@@ -24,8 +27,8 @@ class UserControllerAdvice(
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorModelReturn)
     }
 
-    @ExceptionHandler
-    fun handleUserDomainException(exception: UserAlreadyExistsException): ResponseEntity<ErrorModelReturn?> {
+    @ExceptionHandler(UserAlreadyExistsException::class)
+    fun handleUserAlreadyExistsException(exception: UserAlreadyExistsException): ResponseEntity<ErrorModelReturn?> {
         val message = messageService.getMessage(exception.code, exception.args())
         val errorModelReturn = ErrorModelReturn(
             code = exception.code,
@@ -36,8 +39,8 @@ class UserControllerAdvice(
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorModelReturn)
     }
 
-    @ExceptionHandler
-    fun handleUserDomainException(exception: UserNotAuthorizedException): ResponseEntity<ErrorModelReturn?> {
+    @ExceptionHandler(UserNotAuthorizedException::class)
+    fun handleUserNotAuthorizedException(exception: UserNotAuthorizedException): ResponseEntity<ErrorModelReturn?> {
         val message = messageService.getMessage(exception.code, exception.args())
         val errorModelReturn = ErrorModelReturn(
             code = exception.code,
@@ -48,8 +51,8 @@ class UserControllerAdvice(
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorModelReturn)
     }
 
-    @ExceptionHandler
-    fun handleUserDomainException(exception: UserBadRequestException): ResponseEntity<ErrorModelReturn?> {
+    @ExceptionHandler(UserBadRequestException::class)
+    fun handleUserBadRequestException(exception: UserBadRequestException): ResponseEntity<ErrorModelReturn?> {
         val message = messageService.getMessage(exception.code, exception.args())
         val errorModelReturn = ErrorModelReturn(
             code = exception.code,
