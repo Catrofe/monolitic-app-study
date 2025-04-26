@@ -2,6 +2,7 @@ package com.br.iceberg.modules.order.entity
 
 import com.br.iceberg.model.OrderStatus
 import com.br.iceberg.model.PaymentType
+import com.br.iceberg.modules.order.dto.OrderDraft
 import com.br.iceberg.modules.user.entity.UserEntity
 import jakarta.persistence.CascadeType
 import jakarta.persistence.Column
@@ -60,4 +61,18 @@ class OrderEntity(
 
     @UpdateTimestamp
     var updatedAt: LocalDateTime
-)
+){
+    constructor(orderDraft: OrderDraft) : this(
+        user = orderDraft.user,
+        paymentMethod = orderDraft.paymentType,
+        totalPrice = orderDraft.totalPrice,
+        items = mutableListOf(),
+        createdAt = LocalDateTime.now(),
+        updatedAt = LocalDateTime.now()
+    )
+
+    fun addItem(item: OrderItemEntity) {
+        items.add(item)
+        item.order = this
+    }
+}
