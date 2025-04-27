@@ -2,12 +2,8 @@ package com.br.iceberg.model
 
 enum class PaymentType(val description: String) {
     CASH("Dinheiro"),
-    CREDIT_CARD("Cartão de Crédito"),
-    DEBIT_CARD("Cartão de Débito"),
+    CREDIT_CARD("Cartao de Credito"),
+    DEBIT_CARD("Cartao de Debito"),
     PIX("Pix"),
-    VOUCHER("Vale Refeição");
-
-    fun getDescription(): String {
-        return description
-    }
+    VOUCHER("Vale Refeicao");
 }

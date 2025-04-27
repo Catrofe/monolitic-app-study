@@ -13,5 +13,4 @@ interface CupRepository : JpaRepository<CupEntity, Long> {
 
     @Query("SELECT c FROM CupEntity c WHERE c.id = :id AND c.isAvailable = true")
     fun findByIdAndIsAvailableTrue(id: Long): CupEntity?
-    fun existsByIdAndAvailable(cup: Long, available: Boolean = true): Boolean
 }

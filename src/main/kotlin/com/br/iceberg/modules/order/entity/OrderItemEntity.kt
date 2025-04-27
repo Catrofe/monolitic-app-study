@@ -39,15 +39,18 @@ class OrderItemEntity(
     @JoinColumn(name = "cup_size_id", nullable = false)
     var cupSize: CupEntity,
 
+    @Column(name = "quantity", nullable = false)
+    var quantity: Int = 1,
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "base_product_id", nullable = false)
     var baseProduct: BaseProductsEntity,
 
     @Column(name = "base_price", nullable = false)
-    var basePrice: Int,
+    var cupBasePrice: Int,
 
     @Column(name = "total_price", nullable = false)
-    var totalPrice: Int,
+    var price: Int,
 
     @OneToMany(mappedBy = "orderItem", cascade = [CascadeType.ALL], orphanRemoval = true)
     val addons: MutableList<OrderItemAddonEntity> = mutableListOf()

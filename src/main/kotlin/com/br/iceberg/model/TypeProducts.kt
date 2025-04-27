@@ -4,4 +4,5 @@ enum class TypeProducts {
     BASE,
     TOPPING,
     SYRUP,
+    PLUS
 }

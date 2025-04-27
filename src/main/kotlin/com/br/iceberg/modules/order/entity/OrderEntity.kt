@@ -63,16 +63,11 @@ class OrderEntity(
     var updatedAt: LocalDateTime
 ){
     constructor(orderDraft: OrderDraft) : this(
-        user = orderDraft.user,
+        user = orderDraft.user!!,
         paymentMethod = orderDraft.paymentType,
         totalPrice = orderDraft.totalPrice,
         items = mutableListOf(),
         createdAt = LocalDateTime.now(),
         updatedAt = LocalDateTime.now()
     )
-
-    fun addItem(item: OrderItemEntity) {
-        items.add(item)
-        item.order = this
-    }
 }

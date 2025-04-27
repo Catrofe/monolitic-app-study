@@ -7,5 +7,4 @@ data class OrderItemModel(
     val toppings: List<String>,
     val syrups: List<String>,
     val plusItems: List<String>
-) {
-}
+)

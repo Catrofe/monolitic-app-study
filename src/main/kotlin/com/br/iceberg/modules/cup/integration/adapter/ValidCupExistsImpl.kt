@@ -9,5 +9,5 @@ class ValidCupExistsImpl(
     private val cupRepository: CupRepository,
 ) : ValidCupExists {
     override fun isValidCup(cup: Long) =
-        cupRepository.existsByIdAndAvailable(cup)
+        cupRepository.findByIdAndIsAvailableTrue(cup)
 }

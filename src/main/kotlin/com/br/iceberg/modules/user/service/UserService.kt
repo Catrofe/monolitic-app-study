@@ -66,7 +66,7 @@ class UserService(
         userEntity.updateUser(user)
         val updatedUser = userRepository.save(userEntity)
 
-        logger.info("Usuário atualizado com ID: ${updatedUser.id} e email: ${updatedUser.email}")
+        logger.info("Usuario atualizado com ID: ${updatedUser.id} e email: ${updatedUser.email}")
         return updatedUser.toModel()
     }
 

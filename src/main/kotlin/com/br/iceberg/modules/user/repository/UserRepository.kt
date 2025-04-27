@@ -13,4 +13,6 @@ interface UserRepository : JpaRepository<UserEntity, Long> {
 
     @Query("SELECT u FROM UserEntity u WHERE (u.email = :login OR u.phone = :phone) AND u.id <> :id")
     fun verifyIfUpdateUserIsSafe(login: String, phone: String, id: Long): UserEntity?
+
+    fun findByIdAndIsBlockedFalse(id: Long): UserEntity?
 }

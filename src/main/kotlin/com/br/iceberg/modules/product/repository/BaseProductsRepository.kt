@@ -25,4 +25,20 @@ interface BaseProductsRepository: JpaRepository<BaseProductsEntity, Long>{
 
     @Query("SELECT p FROM BaseProductsEntity p WHERE p.id = :id AND p.isAvailable = true")
     fun findByIdAndIsAvailableTrue(id: Long): BaseProductsEntity?
+
+    @Query("SELECT p FROM BaseProductsEntity p WHERE p.id = :product AND p.isAvailable = true")
+    fun findByIdAndAvailableIsTrue(product: Long): BaseProductsEntity?
+
+    @Query("SELECT p FROM BaseProductsEntity p WHERE p.id IN :products AND p.isAvailable = true")
+    fun findAllByIdIsInAndAvailableTrue(products: List<Long>): List<BaseProductsEntity>
+
+    @Query(
+        """
+        SELECT p FROM BaseProductsEntity p 
+        WHERE p.id IN :products 
+        AND p.isAvailable = true 
+        AND p.isPlusProduct = true
+        """
+    )
+    fun findAllByIdIsInAndAvailableTrueAndPlusProductTrue(products: List<Long>): List<BaseProductsEntity>
 }
