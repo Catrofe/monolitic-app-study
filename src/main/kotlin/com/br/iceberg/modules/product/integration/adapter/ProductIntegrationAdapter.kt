@@ -10,7 +10,7 @@ class ProductIntegrationAdapter(
     private val repository: BaseProductsRepository
 ): ProductIntegration {
     override fun isValidProduct(product: Long): BaseProductsEntity? {
-        return repository.findByIdAndAvailableIsTrue(product)
+        return repository.findByIdAndIsAvailableTrue(product)
     }
 
     override fun getToppingsOrSyrups(products: List<Long>): List<BaseProductsEntity> {
