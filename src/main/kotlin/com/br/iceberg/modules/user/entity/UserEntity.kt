@@ -60,7 +60,7 @@ class UserEntity(
     )
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    var roles: Set<Role> = emptySet()
+    var roles: MutableSet<Role> = mutableSetOf()
 ){
     constructor(createNewUser: CreateNewUser, password: String) : this(
         id = 0,
@@ -69,7 +69,7 @@ class UserEntity(
         email = createNewUser.email,
         password = password,
         phone = createNewUser.phone,
-        roles = setOf(Role.USER),
+        roles = mutableSetOf(Role.USER)
     )
 
     fun toModel(): UserModel {
@@ -104,7 +104,7 @@ class UserEntity(
         this.isBlocked = isBlocked
     }
 
-    fun updateRoles(roles: Set<Role>) {
+    fun updateRoles(roles: MutableSet<Role>) {
         this.roles = roles
     }
 }

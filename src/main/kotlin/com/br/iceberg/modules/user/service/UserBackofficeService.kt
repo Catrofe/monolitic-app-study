@@ -31,7 +31,7 @@ class UserBackofficeService(
     }
 
     @Transactional
-    fun updateUserRoles(roles: Set<Role>,  idUser: Long): UserModel {
+    fun updateUserRoles(roles: MutableSet<Role>,  idUser: Long): UserModel {
         val userEntity = userRepository.findById(idUser)
             .orElseThrow { UserNotFoundException(idUser.toString()) }
         userEntity.updateRoles(roles)

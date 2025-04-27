@@ -12,7 +12,7 @@ class UserDetailsServiceImpl(private val userRepository: UserRepository) : UserD
 
     override fun loadUserByUsername(username: String): UserDetails {
         val user = userRepository.findByEmail(username)
-            ?: throw UsernameNotFoundException("Usuário não encontrado: $username")
+            ?: throw UsernameNotFoundException("Usuario nao encontrado: $username")
         return UserDetailsImpl(user)
     }
 }

@@ -25,6 +25,6 @@ class CupUsersService(
 
     fun getCup(id: Long): CupModel {
         return cupRepository.findByIdAndIsAvailableTrue(id)?.toModel()
-            ?: throw CupNotAvailableException("$id")
+            ?: throw CupNotAvailableException(id.toString())
     }
 }
