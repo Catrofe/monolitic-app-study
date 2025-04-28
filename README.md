@@ -24,10 +24,14 @@ Por que usar Mediator?
 
 ```mermaid
 graph TD
-    A[Order Module] -- Command --> B(Mediator)
-    B --> C(Product Module)
-    B --> D(User Module)
+    A[OrderUsecase] --> B[Order Interface Extern]
+    B --> C[Mediator Implementation Order Interface]
+    C --> D[Product Interface]
+    C --> E[User Interface]
+    D --> F[Product Module Implementation]
+    E --> G[User Module Implementation]
 ```
+
 
 - `Order Module` envia comandos através do `Mediator`.
 - O `Mediator` direciona para o `Product Module` ou `User Module` conforme o tipo de comando.
