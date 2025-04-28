@@ -33,8 +33,9 @@ graph TD
 ```
 
 
-- `Order Module` envia comandos através do `Mediator`.
-- O `Mediator` direciona para o `Product Module` ou `User Module` conforme o tipo de comando.
+- `Order Usecase` envia comandos através do `Mediator`.
+- O `Mediator` direciona para o `Product Interface` ou `User Interface` conforme o tipo de comando.
+- O Módulo expõe suas interfaces conforme demanda e implementa suas próprias implementações, garantindo total controle sobre o dominio. 
 
 ---
 
