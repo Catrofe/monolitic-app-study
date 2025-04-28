@@ -35,7 +35,7 @@ graph TD
 
 - `Order Usecase` envia comandos através do `Mediator`.
 - O `Mediator` direciona para o `Product Interface` ou `User Interface` conforme o tipo de comando.
-- O Módulo expõe suas interfaces conforme demanda e implementa suas próprias implementações, garantindo total controle sobre o dominio. 
+- O Módulo expõe suas interfaces conforme demanda e executa suas próprias implementações, garantindo total controle sobre o dominio. 
 
 ---
 
